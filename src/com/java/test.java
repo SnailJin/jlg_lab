@@ -16,7 +16,9 @@ public class test {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-	   
+		int i=2;
+		long j=(long)i;
+		System.out.println(j);
 
 	}
 	public static boolean is_file(String typeName){
