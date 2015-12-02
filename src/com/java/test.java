@@ -1,6 +1,9 @@
 package com.java;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.regex.Pattern;
 
 
@@ -16,9 +19,10 @@ public class test {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		int i=2;
-		long j=(long)i;
-		System.out.println(j);
+		 Calendar  cal = Calendar.getInstance();
+		 cal.add(Calendar.DAY_OF_MONTH, 7);
+		 SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		System.out.println(sdf.format(new Date()));
 
 	}
 	public static boolean is_file(String typeName){
