@@ -21,7 +21,14 @@ import org.jboss.netty.handler.codec.serialization.ObjectEncoder;
 public class client {
 
 	public static void main(String[] args) {
-		 ClientBootstrap bootstrap = new ClientBootstrap(new NioClientSocketChannelFactory(Executors.newCachedThreadPool(),Executors.newCachedThreadPool()));
+		 for(int i = 0;i<5;i++){
+			 new MyThread().start();
+		 }
+		
+	}
+	
+	public void start(){
+		ClientBootstrap bootstrap = new ClientBootstrap(new NioClientSocketChannelFactory(Executors.newCachedThreadPool(),Executors.newCachedThreadPool()));
 		// 设置一个处理服务端消息和各种消息事件的类(Handler)  
 	        bootstrap.setPipelineFactory(new ChannelPipelineFactory(){
 
@@ -40,7 +47,6 @@ public class client {
 	                "127.0.0.1", 8088));  
 	        
 	        System.out.println("端口绑定成功");
-
 	}
 	
 	 private static class HelloClientHandler extends SimpleChannelHandler {
@@ -53,4 +59,22 @@ public class client {
 		 
 	 }
 
+}
+
+class MyThread extends Thread {
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		super.run();
+		client c = new client();
+		c.start();
+		try {
+			Thread.sleep(1000000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 }

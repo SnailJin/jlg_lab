@@ -33,6 +33,16 @@ public class RedisDB {
 		return RedisDB.pool;
 	}
 	
+	public void closeConnection(Jedis jedis){
+		if(jedis !=null){
+			try{
+				RedisDB.pool.returnBrokenResource(jedis);
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+			
+		}
+	}
 	
 	public static void main(String [] args){
 		JedisPool pool = RedisDB.getPool();

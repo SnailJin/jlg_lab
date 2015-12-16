@@ -14,7 +14,7 @@ public class RedisConfig {
 	//表示当borrow(引入)一个jedis实例时，最大的等待时间，如果超过等待时间，则直接抛出JedisConnectionException； 
 	public static final int MAXWAIT = 1000 * 100;
 	//最大连接数
-	public static final int MAXTOTAL =8;
+	public static final int MAXTOTAL =10;
 	
 	
 }
