@@ -3,12 +3,15 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>jlg.lab</groupId>
 	<artifactId>jlg.lab</artifactId>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>jlg.lab</name>
 	<version>1.0.0</version>
 
+
+	<!-- 定义全局版本号 -->
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<spring.version>3.1.0.RELEASE</spring.version>
 	</properties>
 
 	<distributionManagement>
@@ -58,15 +61,15 @@
 			<version>3.1.1</version>
 		</dependency>
 		<!-- mongdb -->
-         
-         <!-- json -->
+
+		<!-- json -->
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>fastjson</artifactId>
 			<version>1.2.4</version>
 		</dependency>
-		
-        <!-- httpclient -->
+
+		<!-- httpclient -->
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
@@ -82,8 +85,8 @@
 			<artifactId>httpmime</artifactId>
 			<version>4.2.5</version>
 		</dependency>
-		 <!-- httpclient -->
-		 <!-- 定时任务 -->
+		<!-- httpclient -->
+		<!-- 定时任务 -->
 		<dependency>
 			<groupId>org.quartz-scheduler</groupId>
 			<artifactId>quartz</artifactId>
@@ -105,15 +108,12 @@
 			<artifactId>log4j</artifactId>
 			<version>1.2.14</version>
 		</dependency>
-        <!-- 日志 -->
+		<!-- 日志 -->
 		<dependency>
 			<groupId>com.sun.mail</groupId>
 			<artifactId>javax.mail</artifactId>
 			<version>1.5.5</version>
 		</dependency>
-
-
-
 
 		<dependency>
 			<groupId>cglib</groupId>
@@ -130,12 +130,95 @@
 			<artifactId>netty</artifactId>
 			<version>3.6.5.Final</version>
 		</dependency>
+		<!--**************************************************Spring框架******************************************************** -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>3.1.0.RELEASE</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
 
+		<!-- spring aop 支持包 -->
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>1.7.4</version>
+		</dependency>
 
+		<!-- ZooKeeper -->
+		<dependency>
+			<groupId>org.apache.zookeeper</groupId>
+			<artifactId>zookeeper</artifactId>
+			<version>3.4.6</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.curator</groupId>
+			<artifactId>curator-recipes</artifactId>
+			<version>2.3.0</version>
+		</dependency>
 
-
-
-
+		<!-- sql -->
+		<dependency>
+			<groupId>postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>9.1-901-1.jdbc4</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -148,6 +231,45 @@
 					<target>1.6</target>
 				</configuration>
 			</plugin>
+
+			<!-- 打包 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<classpathPrefix>./</classpathPrefix>
+							<!-- 运行类 -->
+							<mainClass>com.jin.java.test</mainClass>
+						</manifest>
+					</archive>
+					<excludes>
+						<exclude>/package.xml</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+					<appendAssemblyId>false</appendAssemblyId>
+					<descriptors>
+						<descriptor>package.xml</descriptor>
+					</descriptors>
+				</configuration>
+				<executions>
+					<execution>
+						<id>make-assembly</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
 		</plugins>
 	</build>
+
 </project>

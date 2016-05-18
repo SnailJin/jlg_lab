@@ -64,7 +64,7 @@ public class DynamicProxy {
 		long startTime = System.currentTimeMillis();
 		Visitor visitor = new Visitor();
 		visitor.setUsername("jin liguang");
-		for (int i = 0; i < 100000; i++) {
+		for (int i = 0; i < 1000; i++) {
 			Buy by = (Buy) BusinessImplProxy.factory(visitor);
 			by.buyTicket("buinesss");
 		}

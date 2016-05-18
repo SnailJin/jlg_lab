@@ -36,7 +36,7 @@ public class ReflectTest {
 		sum = 0;
 		now = System.currentTimeMillis();
 		for (int i = 0; i < 500000; ++i) {
-			Class<?> c = Class.forName("test.TestClass");
+			Class<?> c = Class.forName("com.jin.java.TestClass");
 			Class<?>[] argsType = new Class[1];
 			argsType[0] = int.class;
 			Method m = c.getMethod("setNum", argsType);
@@ -47,7 +47,7 @@ public class ReflectTest {
 				+ "ms，和是" + sum);
 
 		sum = 0;
-		Class<?> c = Class.forName("test.TestClass");
+		Class<?> c = Class.forName("com.jin.java.TestClass");
 		Class<?>[] argsType = new Class [1];
 		argsType[0] = int.class;
 		Method m = c.getMethod("setNum", argsType);

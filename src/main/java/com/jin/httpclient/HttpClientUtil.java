@@ -27,10 +27,11 @@ public class HttpClientUtil {
 	 * @param params
 	 * @return
 	 */
-	public static String get(String url, List<NameValuePair> params) throws Exception {
+	public static int get(String url, List<NameValuePair> params) throws Exception {
 		HttpClient httpClient = new DefaultHttpClient();
 		String body = null;
 		HttpGet httpget = null;
+		int status;
 		try {
 			// Get请求
 			httpget = new HttpGet(url);
@@ -52,6 +53,7 @@ public class HttpClientUtil {
 					CoreProtocolPNames.HTTP_CONTENT_CHARSET);
 			HttpEntity entity = httpresponse.getEntity();
 			body = EntityUtils.toString(entity, "UTF-8");
+			status= httpresponse.getStatusLine().getStatusCode();
 
 			if (entity != null) {
 				entity.consumeContent();
@@ -61,7 +63,8 @@ public class HttpClientUtil {
 				httpClient.getConnectionManager().shutdown();
 			}
 		}
-		return body;
+		return status;
+//		return body;
 	}
 
 	/**
@@ -98,11 +101,12 @@ public class HttpClientUtil {
 	 * @param type 0 get 1post
 	 * @return
 	 */
-	public static String requestWithParam(String url, int type)  throws Exception {
+	public static int requestWithParam(String url, int type)  throws Exception {
 		//拆开参数
 		List<NameValuePair> paramList = new ArrayList<NameValuePair>();
 		int i = url.indexOf("?");
 		String uri,body;
+		int status;
 		if (i == -1){
 			uri = url;
 		}else{
@@ -120,12 +124,13 @@ public class HttpClientUtil {
 				
 			}
 		}
-		if(type == 0){
-			body = get(uri, paramList);
-		}else{
-			body = post(uri, paramList);
-		}
-		return body;
+		status = get(uri, paramList);
+//		if(type == 0){
+//			body = get(uri, paramList);
+//		}else{
+//			body = post(uri, paramList);
+//		}
+		return status;
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -142,7 +147,7 @@ public class HttpClientUtil {
 //			paramList.add(new BasicNameValuePair(tempParam[0], tempParam[1]));
 //		}
 		String uri = "http://m.api.zhe800.com/operation/click/v2/activation?source=mopinzhe800&appid=tao800&udid=02:00:00:00:00:00&idfa=35BA7DFF-56CF-4E59-B098-55026A516170&sign=8e99eedc3ac8632cb02941149431d6";
-		result = requestWithParam("http://thirdpart.kaola.com/idfa/third/notifyIdfa",1);
+//		result = requestWithParam("http://thirdpart.kaola.com/idfa/third/notifyIdfa",1);
 	}
 
 }

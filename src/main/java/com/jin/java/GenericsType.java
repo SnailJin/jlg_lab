@@ -1,5 +1,15 @@
 package com.jin.java;
+/**
+ *  T - Type（Java 类）
+ K - Key（键）
 
+ V - Value（值）
+ N - Number（数值类型）
+
+？ -  表示不确定的java类型
+ * @author liguang.jin
+ *
+ */
 public class GenericsType {
 	
 	class Lhist<V>{

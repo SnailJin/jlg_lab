@@ -10,6 +10,7 @@ import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
@@ -45,7 +46,12 @@ public class test {
 //		}
 //		Set<String> list = jedis.zrangeByScore("C_U_L",  0,1000000);
 //		jedis.zremrangeByScore("C_U_L",  0, System.currentTimeMillis());
-		System.out.println(jedis.sismember("G_A_I_S","20016350"));
+		System.out.println(jedis.smembers("F_N_O_S"));
+		long time =System.currentTimeMillis();
+		System.out.println(jedis.zrangeByScore("F_N_L", time-1000*60*5, time));
+//		jedis.del("F_N_O_S");
+//		jedis.del("F_N_L");
+		//jedis.zadd("F_N_L",  System.currentTimeMillis(), "10002#0");
 	}
 
 	public static void agrgs(String... strings) {
