@@ -40,17 +40,18 @@ public class test {
 		// test.agrgs("1");
 		long startTime = System.currentTimeMillis();
 		System.out.println(startTime);
-//		System.out.println(jedis.zrange("C_U_L",0,-1));
+		System.out.println(jedis.zrange("C_U_L",0,-1));
 //		for(int i =0 ;i<100000000;i++){
 //			jedis.zadd("C_U_L",i, "490077852#490077852#"+i);
 //		}
 //		Set<String> list = jedis.zrangeByScore("C_U_L",  0,1000000);
 //		jedis.zremrangeByScore("C_U_L",  0, System.currentTimeMillis());
-		System.out.println(jedis.smembers("F_N_O_S"));
-		long time =System.currentTimeMillis();
-		System.out.println(jedis.zrangeByScore("F_N_L", time-1000*60*5, time));
-//		jedis.del("F_N_O_S");
-//		jedis.del("F_N_L");
+//		System.out.println(jedis.smembers("P_N_O_I_S"));
+//		long time =System.currentTimeMillis();
+//		System.out.println(jedis.zrangeByScore("C_U_L", time-1000*60*5, time));
+		System.out.println(jedis.hgetAll("S_E:mopin1"));
+//		jedis.del("P_N_O_I_S");
+		System.out.println(jedis.del("S_E:"));
 		//jedis.zadd("F_N_L",  System.currentTimeMillis(), "10002#0");
 	}
 

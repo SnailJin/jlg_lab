@@ -26,7 +26,7 @@ public class Test {
 //		reader.loadBeanDefinitions(res);
 		ApplicationContext appCt2 = new FileSystemXmlApplicationContext("classpath:bean.xml");
 		Agency agency = (Agency) appCt2.getBean("agency");
-		agency.output();
+		agency.output("买票");
 		
 	}
 

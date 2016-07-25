@@ -14,13 +14,13 @@
         <aop:aspect id="TestAspect" ref="aspectBean">  
             <!--配置com.spring.service包下所有类或接口的所有方法-->  
             <aop:pointcut id="businessService"  
-                expression="execution(* com.jin.spring.Agency.output(..))" />  
+                expression="execution(* com.jin.spring.Agency.output(..)) and args(..)" />  
             <aop:before pointcut-ref="businessService" method="berforeBuy"/>  
-            <aop:after pointcut-ref="businessService" method="afterBuy"/>  
+            <aop:after pointcut-ref="businessService" method="afterBuy" />  
         </aop:aspect>  
     </aop:config>  
     
-   <bean id="visitor" class="com.jin.spring.Visitor"></bean>
+   <bean id="visitor" class="com.jin.spring.Visitor"></bean>	
    
    <bean id="agency" class="com.jin.spring.Agency">
       <property name="visitor" ref="visitor"></property>

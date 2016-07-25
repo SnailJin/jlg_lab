@@ -11,8 +11,8 @@ public class Agency {
 		this.visitor = visitor;
 	}
 	
-	public void output() {
-		visitor.buyTitck();
+	public void output(String name) {
+		visitor.buyTitck(name);
 	}
 	
 }
