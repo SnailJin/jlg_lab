@@ -79,18 +79,19 @@ public class Test {
 	// bundleid 包
 	public static void XY_game() throws Exception {
 		String url = "http://pc.xyzs.com/Api/Appinfos/getAppDownloadUrl?from=mopinzs&channelid=mopinzs&bundleid=${bundleid}&cert=&udid=91033a6a7e15c74ef5b80008cb2c5d6235648436&version=2.5.19.4272&isauthor=1";
-		String[] bundleidList = new String[] { "com.pocketmonIos.xy" };
+		String[] bundleidList = new String[] {"com.idreamsky.cqb.xy"};
+		System.out.println(bundleidList.length);
 		for (String bundleid : bundleidList) {
 			String urlTemp = url;
 			urlTemp = urlTemp.replace("${bundleid}", bundleid);
 			String body = HttpClientUtil.requestWithParam(urlTemp, 0);
-			System.out.println(urlTemp);
-			System.out.println(body);
+//			System.out.println(urlTemp);
+//			System.out.println(body);
 			JSONObject json = (JSONObject) JSONObject.parse(body);
 			String download = json.getJSONObject("data").getString("resurl");
 			download = new String(Base64.decodeBase64(download));
 			System.out.println(download);
-			int status = HttpClientUtil.requestGetFile(download, 0);
+//			int status = HttpClientUtil.requestGetFile(download, 0);
 		}
 
 	}
@@ -116,10 +117,9 @@ public class Test {
 	}
 
 	public static void main(String[] args) throws Exception {
-		htttpResutl();
-//		XY_game();
+//		htttpResutl();
+		XY_game();
 //		writeWithMappedByteBuffer("http://dlh.xyzsq.com/pack/591/100024591/1467078854/1467083459-100024591_751_s.ipa");
-		System.out.println(URLDecoder.decode("%E6%9D%AD%E5%B7%9E%E9%AD%94%E5%93%81_10006631"));
 	}
 
 }

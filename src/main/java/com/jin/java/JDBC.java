@@ -30,6 +30,12 @@ public class JDBC {
 	public static Connection conn_1 = null;
 	public static PreparedStatement pst = null;
 
+	public static void getConnection() throws Exception {
+		// 加载MySql的驱动类
+		Class.forName(name);
+		conn = DriverManager.getConnection(url, user, password);// 获取连接
+		conn_1 = DriverManager.getConnection(url_1, user, password);// 获取连接
+	}
 	public static void QQRead() throws Exception{
 		Map<String, Integer> map = new HashMap<String, Integer>();
 		int i = 13;
@@ -176,10 +182,7 @@ public class JDBC {
 	public static void main(String[] args) {
 		
 		try {
-			// 加载MySql的驱动类
-			Class.forName(name);
-			conn = DriverManager.getConnection(url, user, password);// 获取连接
-			conn_1 = DriverManager.getConnection(url_1, user, password);// 获取连接
+			getConnection();
 			XY();
 		} catch (Exception e) {
 			e.printStackTrace();
