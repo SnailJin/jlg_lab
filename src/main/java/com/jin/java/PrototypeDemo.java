@@ -12,7 +12,7 @@ class Prototype{
 	}
 }
 class ShallowCopy implements Cloneable{
-	private Prototype prototype;
+	private Object prototype;
 	private int id;
 	public Object clone() {
 		try {
@@ -24,11 +24,11 @@ class ShallowCopy implements Cloneable{
 		}
 	}
 
-	public Prototype getPrototype() {
+	public Object getPrototype() {
 		return prototype;
 	}
 
-	public void setPrototype(Prototype prototype) {
+	public void setPrototype(Object prototype) {
 		this.prototype = prototype;
 	}
 
@@ -120,12 +120,12 @@ public class PrototypeDemo {
 		dc.setId(1);
 		dc.setPrototype(pc);
 		ShallowCopy dc1 = (ShallowCopy) dc.clone();
-		dc1.getPrototype().setUsername("li");
+		((Prototype)dc1.getPrototype()).setUsername("li");
 		dc1.setId(2);
 		System.out.println("dc id:"+dc.getId());
-		System.out.println("dc username:"+dc.getPrototype().getUsername());
+		System.out.println("dc username:"+((Prototype)dc.getPrototype()).getUsername());
 		System.out.println("dc1 id:"+dc1.getId());
-		System.out.println("dc1 username:"+dc1.getPrototype().getUsername());
+		System.out.println("dc1 username:"+((Prototype)dc1.getPrototype()).getUsername());
 	}
 	/**
 	 * @param args

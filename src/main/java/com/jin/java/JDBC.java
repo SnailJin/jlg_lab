@@ -26,16 +26,35 @@ public class JDBC {
 //	public static final String user = "skypcsuit_test";
 //	public static final String password = "skypcsuit_test";
 
+	public static Connection conn_log = null;
 	public static Connection conn = null;
-	public static Connection conn_1 = null;
 	public static PreparedStatement pst = null;
 
+	/**
+	 * 获得连接
+	 * @throws Exception
+	 */
 	public static void getConnection() throws Exception {
 		// 加载MySql的驱动类
 		Class.forName(name);
-		conn = DriverManager.getConnection(url, user, password);// 获取连接
-		conn_1 = DriverManager.getConnection(url_1, user, password);// 获取连接
+		conn_log = DriverManager.getConnection(url, user, password);// 获取连接
+		conn = DriverManager.getConnection(url_1, user, password);// 获取连接
 	}
+	
+	/**
+	 * 运行请求
+	 * @param sql
+	 * @return
+	 * @throws Exception
+	 */
+	public static ResultSet executeQuery(String sql) throws Exception {
+		JDBC.getConnection();
+		JDBC.pst = JDBC.conn_log.prepareStatement(sql);// 准备执行语句
+		ResultSet ret = JDBC.pst.executeQuery();
+		JDBC.conn.close();
+		return ret;
+	}
+	
 	public static void QQRead() throws Exception{
 		Map<String, Integer> map = new HashMap<String, Integer>();
 		int i = 13;
@@ -49,7 +68,7 @@ public class JDBC {
 			sql = "select DISTINCT idfa from skypcsuit_log.tbl_log_app_cp_report_201607  WHERE app_id ='20000457' and to_char(create_time,'yyyy-mm-dd') = '"
 					+ time + i + "' and status =0";
 			System.out.println(sql);
-			pst = conn.prepareStatement(sql);// 准备执行语句
+			pst = conn_log .prepareStatement(sql);// 准备执行语句
 			ret = pst.executeQuery();
 			while (ret.next()) {
 				count1++;
@@ -82,7 +101,7 @@ public class JDBC {
 			int count = 0;
 			int count1=0;
 			sql = "select *  from skypcsuit_log.tbl_log_app_cp_report_201606  where  app_id ='20017627' and to_char(create_time,'yyyy-mm-dd') >= '2016-06-01' and status =1";
-			pst = conn.prepareStatement(sql);// 准备执行语句
+			pst = conn_log .prepareStatement(sql);// 准备执行语句
 			ret = pst.executeQuery();
 			while (ret.next()) {
 				count1++;
@@ -131,7 +150,7 @@ public class JDBC {
 		List<HashMap<String, String>> genuineList = new ArrayList<HashMap<String, String>>();
 		List<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
 		try {
-			pst = conn_1.prepareStatement(sql_en);
+			pst = conn.prepareStatement(sql_en);
 			ret = pst.executeQuery();
 			while (ret.next()) {
 				HashMap<String, String> temp = new HashMap<String, String>();
@@ -140,14 +159,14 @@ public class JDBC {
 				genuineList.add(temp);
 			}	
 			ret.close();
-			conn_1.close();
+			conn.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		try {
-			pst = conn.prepareStatement(sql);
+			pst = conn_log .prepareStatement(sql);
 			ret = pst.executeQuery();
 			while (ret.next()) {
 				HashMap<String, String> temp = new HashMap<String, String>();
@@ -156,7 +175,7 @@ public class JDBC {
 				list.add(temp);
 			}	
 			ret.close();
-			conn.close();
+			conn_log .close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
