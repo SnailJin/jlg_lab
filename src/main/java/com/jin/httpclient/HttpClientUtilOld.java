@@ -6,9 +6,7 @@ import java.io.InputStream;
 import java.net.URI;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -17,24 +15,17 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.CoreConnectionPNames;
 import org.apache.http.params.CoreProtocolPNames;
+import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 
-public class HttpClientUtil {
+public class HttpClientUtilOld {
 	private final static int DEFALUT_TIMEOUT = 3000 ;
 	private final static boolean DEFALUT_HTTPS_CER_VERIFY = true ;
 	private final static String DEFALUT_DOWNLOAD_DIR = "E:/file" ;
-	private static String clientType = "pc"; // pc,iphone,android
-	private final static Map<String,String> usserAgent = new HashMap<String, String>(){{
-		put("iphone","Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1");
-		put("android","Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.23 Mobile Safari/537.36");
-		put("pc","Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.116 Safari/537.36");
-	}};
-	
 	
 	/**
 	 * 发送 get请求
@@ -43,10 +34,9 @@ public class HttpClientUtil {
 	 * @param params 参数
 	 * @param timeout 过期时间
 	 * @param httpsCerVerify httpss证书验证    true：需要  false 不需要
-	 * @param isUrlEncoder 是否转义
 	 * @return
 	 */
-	public static String get(String url,  String params,int timeout,boolean httpsCerVerify,boolean isUrlEncoder) throws Exception {
+	public static String get(String url, List<NameValuePair> params,int timeout,boolean httpsCerVerify) throws Exception {
 		HttpClient httpClient = null;
 		if(httpsCerVerify){
 			httpClient = new DefaultHttpClient();
@@ -62,17 +52,12 @@ public class HttpClientUtil {
 			// Get请求
 			httpget = new HttpGet(url);
 			// 设置参数
-			String str = "";
-			if(isUrlEncoder){
-				List<NameValuePair> paramList = _parseBasicNameValuePairList(params);
-				str = EntityUtils.toString(new UrlEncodedFormEntity(paramList,"utf-8"));
-			}else{
-				str = EntityUtils.toString(new StringEntity(params,"utf-8"));
-			}
+
+			String str = EntityUtils.toString(new UrlEncodedFormEntity(params,
+					"utf-8"));
 			httpget.setURI(new URI(httpget.getURI().toString() + "?" + str));
 
 			httpget.addHeader("Content-Type", "text/html;charset=UTF-8");
-			httpget.addHeader("User-Agent", usserAgent.get(clientType));
 			httpClient.getParams().setParameter(
 					CoreProtocolPNames.HTTP_CONTENT_CHARSET, "UTF-8");
 			httpget.getParams().setParameter(
@@ -185,7 +170,7 @@ public class HttpClientUtil {
 	 * @return
 	 */
 	
-	public static String post(String url, String params,int timeout,boolean httpsCerVerify,boolean isUrlEncoder) throws Exception{
+	public static String post(String url, List<NameValuePair> params,int timeout,boolean httpsCerVerify) throws Exception{
 		HttpClient httpClient = null;
 		if(httpsCerVerify){
 			httpClient = new DefaultHttpClient();
@@ -200,16 +185,7 @@ public class HttpClientUtil {
 			//将请求封装在请求头里面[舍弃]
 //			String str = EntityUtils.toString(new UrlEncodedFormEntity(params));
 //			httppost.setURI(new URI(httppost.getURI().toString() + "?" + str));
-			 StringEntity stringEntity;
-			if(isUrlEncoder){
-				List<NameValuePair> paramList = _parseBasicNameValuePairList(params);
-				stringEntity = new UrlEncodedFormEntity(paramList,"utf-8");
-			}else{
-				stringEntity = new StringEntity(params,"utf-8");
-		        stringEntity.setContentType("application/x-www-form-urlencoded;charset=UTF-8");
-			}
-			httppost.addHeader("User-Agent", usserAgent.get(clientType));
-			httppost.setEntity(stringEntity);  
+			httppost.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));  
 			HttpResponse httpresponse = httpClient.execute(httppost);
 			HttpEntity entity = httpresponse.getEntity();
 			body = EntityUtils.toString(entity, "UTF-8");
@@ -280,70 +256,49 @@ public class HttpClientUtil {
 	 * @param httpsCerVerify httpss证书验证    true：需要  false 不需要
 	 * @return
 	 */
-	public static String requestWithParam(String url, int type,int timeout,boolean httpsCerVerify,boolean isUrlEncoder)  throws Exception {
-		String params ="";
+	public static String requestWithParam(String url, int type,int timeout,boolean httpsCerVerify)  throws Exception {
+		//拆开参数
+		List<NameValuePair> paramList = new ArrayList<NameValuePair>();
 		int i = url.indexOf("?");
 		String uri,body;
+		int status;
 		if (i == -1){
 			uri = url;
 		}else{
 			uri = url.substring(0, i);
-			params = url.substring(i + 1, url.length());
+			String paramStr = url.substring(i + 1, url.length());
+			String[] paramS = paramStr.split("&");
+			for (String param : paramS) {
+				String[] tempParam = param.split("=");
+				if(tempParam.length==1){
+					paramList.add(new BasicNameValuePair(tempParam[0],""));
+				}else{
+					paramList.add(new BasicNameValuePair(tempParam[0],
+							tempParam[1]));
+				}
+				
+			}
 		}
 		if(type == 0){
-			body = get(uri, params,timeout,httpsCerVerify,isUrlEncoder);
+			body = get(uri, paramList,timeout,httpsCerVerify);
 			
 		}else{
-			body = post(uri, params,timeout,httpsCerVerify,isUrlEncoder);
+			body = post(uri, paramList,timeout,httpsCerVerify);
 		}
 		return body;
 	}
 	
 	public static String requestWithParam(String url, int type)  throws Exception {
-		return requestWithParam(url,type,DEFALUT_TIMEOUT,DEFALUT_HTTPS_CER_VERIFY,true); 
-	}
-	public static String requestWithParamNotUrlEncoder(String url, int type)  throws Exception {
-		return requestWithParam(url,type,DEFALUT_TIMEOUT,DEFALUT_HTTPS_CER_VERIFY,false); 
+		return requestWithParam(url,type,DEFALUT_TIMEOUT,DEFALUT_HTTPS_CER_VERIFY); 
 	}
 	public static String requestWithParam(String url, int type,boolean httpsCerVerify)  throws Exception {
-		return requestWithParam(url,type,DEFALUT_TIMEOUT,httpsCerVerify,true); 
-	}
-	/**
-	 * 根据客户端类型上报
-	 * @param url
-	 * @param type
-	 * @param clientType pc,iphone,android
-	 * @return
-	 * @throws Exception
-	 */
-	public static String requestWithParamAndMobilePhone(String url, int type,String clientType) throws Exception{
-		HttpClientUtil.clientType=clientType;
-		return requestWithParam(url,type,DEFALUT_TIMEOUT,DEFALUT_HTTPS_CER_VERIFY,true); 
-		}
-	
-	/**
-	 * url参数转化为List<NameValuePair>
-	 * @param params 参数url；
-	 * @return
-	 */
-	private static List<NameValuePair> _parseBasicNameValuePairList(String params){
-		List<NameValuePair> paramList = new ArrayList<NameValuePair>();
-		String[] paramS = params.split("&");
-		for (String param : paramS) {
-			String[] tempParam = param.split("=");
-			if(tempParam.length==1){
-				paramList.add(new BasicNameValuePair(tempParam[0],""));
-			}else{
-				paramList.add(new BasicNameValuePair(tempParam[0],tempParam[1]));
-			}
-		}
-		return paramList;
+		return requestWithParam(url,type,DEFALUT_TIMEOUT,httpsCerVerify); 
 	}
 	
 	
 
 	public static void main(String[] args) throws Exception {
-		String url ="http://m.xyzs.com/ajax/getappplist?itunesid=100029300";
+		String url ="http://gw.api.taobao.com/router/rest?timestamp=2016-09-13 17:22:30&app_id=12087020&app_key=23389528&channel_name=%E6%9D%AD%E5%B7%9E%E9%AD%94%E5%93%81_10006631&format=json&idfa=FDAD022C-38F6-48A5-A4D3-8B876165D1C0&method=taobao.ioschannel.statistic.appactive&sign=483DE3D1B2DEB87F44529CDA92834F3B&sign_method=md5&v=2.0";
 		String result = null;
 //		// 拆开参数
 //		int i = url.indexOf("?");
@@ -355,7 +310,7 @@ public class HttpClientUtil {
 //			String[] tempParam = param.split("=");
 //			paramList.add(new BasicNameValuePair(tempParam[0], tempParam[1]));
 //		}
-		result = requestWithParamAndMobilePhone(url,0,"iphone");
+		result = requestWithParam(url,0);
 		System.out.println(result);
 	}
 

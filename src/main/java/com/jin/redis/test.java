@@ -49,9 +49,9 @@ public class test {
 //		System.out.println(jedis.smembers("P_N_O_I_S"));
 //		long time =System.currentTimeMillis();
 //		System.out.println(jedis.zrangeByScore("C_U_L", time-1000*60*5, time));
-		System.out.println(jedis.hgetAll("S_E:mopin1"));
-//		jedis.del("P_N_O_I_S");
-		System.out.println(jedis.del("S_E:"));
+//		System.out.println(jedis.hgetAll("S_E:mopin1"));
+//		jedis.del("C_U_L");
+//		System.out.println(jedis.del("S_E:"));
 		//jedis.zadd("F_N_L",  System.currentTimeMillis(), "10002#0");
 	}
 
