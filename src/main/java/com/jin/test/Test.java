@@ -20,6 +20,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.jin.httpclient.HttpClientUtil;
 
 public class Test {
+	private Boolean id =true;
+	private Object test =  JSONObject.parse("[{ 'name': 'cxh', 'sex': '1','website':'http://www.bejson.com' },{ 'name': '三少', 'sex': '1','website':'http://www.ij2ee.com' }]");
 	// data chunk be written per time
 	private static final int DATA_CHUNK = 128 * 1024 * 1024;
 
@@ -118,8 +120,21 @@ public class Test {
 
 	public static void main(String[] args) throws Exception {
 //		htttpResutl();
-		XY_game();
 //		writeWithMappedByteBuffer("http://dlh.xyzsq.com/pack/591/100024591/1467078854/1467083459-100024591_751_s.ipa");
+//		JSONObject json =  JSONObject.parseObject("{ 'name': null}");
+		Test test =new Test();
+		JSONObject json =  (JSONObject) JSONObject.toJSON(test);
+		System.out.println(json.toJSONString());
+
 	}
+	public Boolean getId() {
+		return id;
+	}
+	public void setId(Boolean id) {
+		this.id = id;
+	}
+	
+
+	
 
 }

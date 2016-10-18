@@ -174,6 +174,9 @@ public class HttpClientUtil {
 	}
 	
 
+	public static String post(String url, String params) throws Exception{
+		return post(url,params,DEFALUT_TIMEOUT,false,false);
+	}
 	
 	/**
 	 * 发送 Post请求
@@ -327,7 +330,7 @@ public class HttpClientUtil {
 	 * @return
 	 */
 	private static List<NameValuePair> _parseBasicNameValuePairList(String params){
-		List<NameValuePair> paramList = new ArrayList<NameValuePair>();
+		List<NameValuePair> paramList = new ArrayList<NameValuePair>();	
 		String[] paramS = params.split("&");
 		for (String param : paramS) {
 			String[] tempParam = param.split("=");
