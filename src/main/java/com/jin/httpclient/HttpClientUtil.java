@@ -346,7 +346,7 @@ public class HttpClientUtil {
 	
 
 	public static void main(String[] args) throws Exception {
-		String url ="http://m.xyzs.com/ajax/getappplist?itunesid=100029300";
+		String url ="http://obs.myhwclouds.com/";
 		String result = null;
 //		// 拆开参数
 //		int i = url.indexOf("?");

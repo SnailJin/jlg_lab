@@ -1,8 +1,8 @@
 package com.jin.redis;
 
 public class RedisConfig {
-	public static final String HOST ="172.16.3.148";
-	public static final int PORT = 6381 ;
+	public static final String HOST ="139.159.210.145";
+	public static final int PORT = 6379 ;
 	public static final int TIMEOUT = 10000;
 	public static final String PASSWRD =null;
 	//public static final String DATABASE ="test";
