@@ -10,6 +10,7 @@ import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import com.alibaba.fastjson.JSONObject;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -18,8 +19,11 @@ import redis.clients.jedis.JedisPoolConfig;
 public class test {
 	public static void main(String[] args) throws InterruptedException {
 		// SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		long startTime = System.currentTimeMillis();
 		JedisPool pool = RedisDB.getPool();
 		Jedis jedis = pool.getResource();
+		long endf = System.currentTimeMillis();
+		System.out.println(endf-startTime);
 		// Long getTimeInMillis=Calendar.getInstance().getTimeInMillis();
 		// jedis.zadd("test1", getTimeInMillis,"232323233");
 		// System.out.println(jedis.zrange("TOP12", 0, -1).toString());
@@ -38,9 +42,12 @@ public class test {
 		// System.out.println(sdf.format(cale.getTime()));
 		// String [] s={"2","23"};
 		// test.agrgs("1");
-		long startTime = System.currentTimeMillis();
-		System.out.println(startTime);
-		System.out.println(jedis.zrange("C_U_L",0,-1));
+//		for(int i=0 ;i<100;i++){
+//			long startTime = System.currentTimeMillis();
+//			jedis.get("test");
+//			long endf = System.currentTimeMillis();
+//			System.out.println(endf-startTime);
+//		}
 //		for(int i =0 ;i<100000000;i++){
 //			jedis.zadd("C_U_L",i, "490077852#490077852#"+i);
 //		}

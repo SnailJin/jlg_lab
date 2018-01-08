@@ -118,15 +118,16 @@ public class Test {
 		return body;
 	}
 
+	static int returnCharNu(String s){ int x = 0; return x = s.length(); } 
+	
 	public static void main(String[] args) throws Exception {
-//		htttpResutl();
-//		writeWithMappedByteBuffer("http://dlh.xyzsq.com/pack/591/100024591/1467078854/1467083459-100024591_751_s.ipa");
-//		JSONObject json =  JSONObject.parseObject("{ 'name': null}");
-		Test test =new Test();
-		JSONObject json =  (JSONObject) JSONObject.toJSON(test);
-		System.out.println(json.toJSONString());
+		B b = new B();
+		b.output();
 
 	}
+//	public <T> test(){
+//		
+//	}
 	public Boolean getId() {
 		return id;
 	}
@@ -137,4 +138,21 @@ public class Test {
 
 	
 
+}
+
+class A{
+	protected String[] Str;
+	
+	public void output() {
+		System.out.println(Str);
+	}
+}
+
+class B extends A{
+	String[] Str = new String[]{"sfsfs"};
+	/*public B(){
+		Str = new String[]{"sfsfs"};
+	}*/
+	
+	
 }
