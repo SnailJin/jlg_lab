@@ -6,8 +6,8 @@ import org.apache.curator.framework.imps.DefaultACLProvider;
 import org.apache.curator.retry.ExponentialBackoffRetry;
 
 public class CuratorFatory {
-	private final static String connectString ="172.16.10.101:2181";
-	private final static String NAMESPACE ="mopote";
+	private final static String connectString ="47.98.146.37:7001,47.98.146.37:7002,47.98.146.37:7003";
+	private final static String NAMESPACE ="test";
 	private static CuratorFramework client;
 	public static void start() {
 		try{
@@ -17,7 +17,7 @@ public class CuratorFatory {
                 .connectionTimeoutMs(30000)
                 .canBeReadOnly(false)
                 .retryPolicy(new ExponentialBackoffRetry(1000, Integer.MAX_VALUE))
-                .namespace(NAMESPACE)
+//                .namespace(NAMESPACE)
                 .aclProvider(new DefaultACLProvider())
                 .defaultData(null)
                 .build();
