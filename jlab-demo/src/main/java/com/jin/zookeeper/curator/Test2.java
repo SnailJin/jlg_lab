@@ -1,11 +1,11 @@
 package com.jin.zookeeper.curator;
 
-import java.util.List;
-
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.recipes.cache.*;
 import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.data.Stat;
+
+import java.util.List;
 
 /**
  * Zookeeper的节点创建模式：
@@ -17,7 +17,7 @@ import org.apache.zookeeper.data.Stat;
  *
  *
  */
-public class Test {
+public class Test2 {
    static String path ="/test";
     static CuratorFramework client = CuratorFatory.getInstance();
 	/**

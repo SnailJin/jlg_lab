@@ -20,6 +20,7 @@ import java.util.TimeZone;
  */
 public class DateTools {
 
+    private static final String defaultFormate =  "yyyy-MM-dd:HH:mm:ss";
     /**
      * 时间格式
      */
@@ -48,6 +49,9 @@ public class DateTools {
      * @return
      */
     public static String format(Date date,final String pattern){
+        if(Utils.isNull(date)){
+            throw new IllegalArgumentException("参数错误!");
+        }
         return getFastDateFormat(pattern,DEFULT_TIME_ZONE,DEFULT_LOCALE).format(date);
     }
     /**
@@ -68,7 +72,7 @@ public class DateTools {
      * @param locale
      * @return
      */
-    public static FastDateFormat getFastDateFormat(final String pattern,final TimeZone timeZone,final Locale locale){
+    public static FastDateFormat getFastDateFormat(final String pattern, final TimeZone timeZone, final Locale locale){
         return FastDateFormat.getInstance(pattern,timeZone,locale);
     }
 
@@ -106,6 +110,9 @@ public class DateTools {
      * @throws ParseException
      */
     public static Date parseDate(String str,String pattern) throws ParseException {
+        if(Utils.isNull(str)){
+            throw new IllegalArgumentException("参数错误!");
+        }
         return DateUtils.parseDate(str,pattern);
     }
     /**
@@ -122,10 +129,15 @@ public class DateTools {
      * @return
      */
     public static Date getStartDay(Date time){
+        if(Utils.isNull(time)){
+            throw new IllegalArgumentException("参数错误!");
+        }
         Calendar calendar = Calendar.getInstance();
+        calendar.setTime(time);
         calendar.set(Calendar.HOUR_OF_DAY,0);
         calendar.set(Calendar.MINUTE,0);
         calendar.set(Calendar.SECOND,0);
+        calendar.set(Calendar.MILLISECOND, 0);
         return calendar.getTime();
     }
     /**
@@ -135,39 +147,21 @@ public class DateTools {
      * @return
      */
     public static Date getEndDay(Date time){
+        if(Utils.isNull(time)){
+            throw new IllegalArgumentException("参数错误!");
+        }
         Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis( time.getTime());
         calendar.set(Calendar.HOUR_OF_DAY,0);
         calendar.set(Calendar.MINUTE,0);
         calendar.set(Calendar.SECOND,0);
+        calendar.set(Calendar.MILLISECOND, 0);
         calendar.add(Calendar.DATE,1);
-        calendar.setTimeInMillis( calendar.getTime().getTime()-1000);
+        calendar.setTimeInMillis( calendar.getTimeInMillis()-1000);
         return calendar.getTime();
     }
 
-    /**
-     * 相隔时间
-     * @param startDate
-     * @param endDate
-     * @return
-     */
-    public static int betweenDay(Date startDate,Date endDate){
-        //根据0点时间计算
-        Calendar fromCalendar = Calendar.getInstance();
-        fromCalendar.setTime(startDate);
-        fromCalendar.set(Calendar.HOUR_OF_DAY, 0);
-        fromCalendar.set(Calendar.MINUTE, 0);
-        fromCalendar.set(Calendar.SECOND, 0);
-        fromCalendar.set(Calendar.MILLISECOND, 0);
 
-        Calendar toCalendar = Calendar.getInstance();
-        toCalendar.setTime(endDate);
-        toCalendar.set(Calendar.HOUR_OF_DAY, 0);
-        toCalendar.set(Calendar.MINUTE, 0);
-        toCalendar.set(Calendar.SECOND, 0);
-        toCalendar.set(Calendar.MILLISECOND, 0);
-        int day = (int)(toCalendar.getTime().getTime() - fromCalendar.getTime().getTime()) / (1000 * 60 * 60 * 24);
-        return day;
-    }
 
     /**
      * 是不是昨天
@@ -175,26 +169,64 @@ public class DateTools {
      * @return
      */
     public static boolean isYesterday(Date time){
-        if(time == null){
-            return false;
-        }
-        Date date=new Date();
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        calendar.add(Calendar.DAY_OF_MONTH, -1);
-        String nowDay = format(calendar.getTime(),yyyyMMddHH);
-        String compareDay = format(time,yyyyMMddHH);
+        Date now=new Date();
         //比较
-        return nowDay.equals(compareDay);
+        return betweenDay(time,now) == 1;
     }
 
+    /**
+     * 相隔天数
+     * @param startDate
+     * @param endDate
+     * @return
+     */
+    public static int betweenDay(Date startDate,Date endDate){
+        if(Utils.isNull(startDate) ||  Utils.isNull(endDate)  || startDate.compareTo(endDate)>=0){
+            throw new IllegalArgumentException("参数错误!");
+        }
+        //根据0点时间计算
+        startDate = getStartDay(startDate);
+        endDate = getStartDay(endDate);
+        int day = Integer.parseInt((endDate.getTime() -startDate.getTime()) / (1000 * 60 * 60 * 24)+"");
+        return day;
+    }
+
+    /**
+     * 相隔月份
+     * @param startDate
+     * @param endDate
+     * @return
+     */
+    public static int betweenMonth(Date startDate,Date endDate){
+        if(Utils.isNull(startDate) ||  Utils.isNull(endDate)  || startDate.compareTo(endDate)>=0){
+            throw new IllegalArgumentException("参数错误!");
+        }
+        Calendar fromCalendar = Calendar.getInstance();
+        fromCalendar.setTime(startDate);
+
+        Calendar toCalendar = Calendar.getInstance();
+        toCalendar.setTime(endDate);
+
+        int month = toCalendar.get(Calendar.MONTH) - fromCalendar.get(Calendar.MONTH);
+        int year = toCalendar.get(Calendar.YEAR) - fromCalendar.get(Calendar.YEAR);
+        return ( month + 12* year);
+    }
+
+    /**
+     * 获取一个月天数
+     * @param date
+     * @return
+     */
+    public static int getDaysOfMonth(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        return calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+    }
 
     public static void main(String[] args) throws ParseException {
         Date date = DateTools.getEndDay(new Date());
-        System.out.println(date);
-        System.out.println(DateTools.format(date));
-        System.out.println(DateTools.getYear(date));
-        System.out.println(DateTools.getMonth(date));
-        System.out.println(DateTools.getDay(date));
+        Date startTime = parseDate("2019-07-01 00:00:00");
+        Date endTime =  parseDate("2019-08-19 59:00:00");
+        System.out.println(betweenMonth(startTime,endTime));
     }
 }

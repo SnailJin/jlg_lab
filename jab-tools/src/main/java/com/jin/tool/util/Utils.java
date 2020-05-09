@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 public class Utils {
 
@@ -38,10 +39,70 @@ public class Utils {
         }
         return flag;
     }
+
+    /**
+     * object为空，或者空字符串，空数组
+     * @param object
+     * @return
+     */
     public static Boolean isNull(Object object){
         return !isNotNull(object);
     }
-	
+
+    /**
+     * object不为空，或者空字符串，空数组
+     * @param objects
+     * @return
+     */
+    public static Boolean isNotNull(Object... objects){
+        for(Object object : objects){
+            if(isNull(object)) {
+                return false;
+            }
+        }
+        return true;
+
+    }
+
+    /**
+     * 判断为空
+     * @param objects
+     * @return
+     */
+    public static Boolean isNull(Object... objects){
+        for(Object object : objects){
+            if(isNotNull(object)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+
+
+
+    /**
+     * 手机号校验
+     * 相对宽松版本的验证
+     * @param phone
+     * @return
+     */
+    public static Boolean validSimplePhone(String phone){
+        if(isNull(phone)){
+            return false;
+        }
+        String reg = "^[1]([3-9])[0-9]{9}$";
+        boolean flag = false;
+        // 验证手机号
+        Pattern p = Pattern.compile(reg);
+        if(p.matcher(phone).matches()){
+            flag = true;
+        }
+        return flag;
+    }
+
+
 	  /**
      * 判断object是否为基本类型
      * @param object

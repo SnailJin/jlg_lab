@@ -43,7 +43,7 @@ public class IDUtils {
     /**
      * 开始时间截 (2019-02)
      */
-    private final long twepoch = 1548950400000L;
+    private final long twepoch = 1288834974657L;
 
     /**
      * 机器id所占的位数
@@ -272,18 +272,8 @@ public class IDUtils {
      * 测试
      */
     public static void main(String[] args) {
-        System.out.println(System.currentTimeMillis());
-//        IDUtils idWorker = new IDUtils(1, 1);
-        IDUtils idWorker = new IDUtils();
-        idWorker.IDUtils();
-        long startTime = System.nanoTime();
-        for (int i = 0; i < 2; i++) {
-            Long id = idWorker.nextId();
+        Long getTimeMillis = 1199667701285183488L;
+        System.out.println(new IDUtils().getTimeMillis(getTimeMillis));
 
-            System.out.println(idWorker.getTimeMillis(id)+":getTimeMillis");
-            System.out.println(Long.toBinaryString(id)+":id");
-            System.out.println(id);
-        }
-        System.out.println((System.nanoTime() - startTime) / 1000000 + "ms");
     }
 }

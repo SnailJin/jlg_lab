@@ -1,6 +1,5 @@
 package com.jin.tool.util;
 
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.Random;
 
@@ -15,7 +14,7 @@ public class Tools {
      * @return
      */
     public static String underlineToCamel(String str){
-        if(StringUtils.isBlank(str)){
+        if(Utils.isNull(str)){
             return "";
         }
         String[] strS = str.split(UNDER_LINE);
