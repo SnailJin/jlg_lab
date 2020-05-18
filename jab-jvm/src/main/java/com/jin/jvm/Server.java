@@ -1,8 +1,8 @@
 package com.jin.jvm;
 
-import com.github.qinxuewu.jvm.server.*;
-import com.github.qinxuewu.utils.Arith;
-import com.github.qinxuewu.utils.IPUtils;
+import com.jin.jvm.server.*;
+import com.jin.jvm.utils.Arith;
+import com.jin.jvm.utils.IPUtils;
 import oshi.SystemInfo;
 import oshi.hardware.CentralProcessor;
 import oshi.hardware.CentralProcessor.TickType;

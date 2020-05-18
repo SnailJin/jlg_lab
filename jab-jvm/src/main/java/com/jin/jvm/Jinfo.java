@@ -1,7 +1,7 @@
 package com.jin.jvm;
-import com.github.qinxuewu.entity.JinfoEntity;
-import com.github.qinxuewu.utils.ArrayUtil;
-import com.github.qinxuewu.utils.ExecuteCmd;
+import com.jin.jvm.entity.JinfoEntity;
+import com.jin.jvm.utils.ArrayUtil;
+import com.jin.jvm.utils.ExecuteCmd;
 
 import java.lang.management.ManagementFactory;
 import java.util.Arrays;

@@ -8,24 +8,26 @@ import java.util.concurrent.TimeUnit;
  * @date 2020/5/9 16:30
  */
 public class ThreadInurrputDemo {
+    public static volatile boolean flag = true;
+
     public static void main(String[] args) throws InterruptedException {
         Thread thread = new Thread(() -> {
             while (true) {
 //                try {
                     if(Thread.currentThread().isInterrupted()){
                         System.out.println("before:"+Thread.currentThread().isInterrupted());
-                        Thread.currentThread().interrupt();
+                        flag = false;
+                        Thread.interrupted(); //复位
                         System.out.println("after:"+Thread.currentThread().isInterrupted());
+
                     }
-//                    Thread.sleep(100);
 //                } catch (InterruptedException e) {
 //                    e.printStackTrace();
 //                }
             }
         }, "ThreadInurrput_Thread");
         thread.start();
-        TimeUnit.SECONDS.sleep(1);
-        thread.interrupt();
+        thread.interrupt();//中断
 
     }
 }

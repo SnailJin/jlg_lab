@@ -1,6 +1,6 @@
 package com.jin.jvm.server;
 
-import com.github.qinxuewu.utils.Arith;
+import com.jin.jvm.utils.Arith;
 
 import java.lang.management.ManagementFactory;
 import java.text.SimpleDateFormat;

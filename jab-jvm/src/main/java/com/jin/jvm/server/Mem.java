@@ -1,6 +1,6 @@
 package com.jin.jvm.server;
 
-import com.github.qinxuewu.utils.Arith;
+import com.jin.jvm.utils.Arith;
 
 /**
  * 內存相关信息

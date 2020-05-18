@@ -1,8 +1,8 @@
 package com.jin.jvm;
-import com.github.qinxuewu.entity.JstackEntity;
-import com.github.qinxuewu.utils.ArrayUtil;
-import com.github.qinxuewu.utils.ExecuteCmd;
-import com.github.qinxuewu.utils.PathUtil;
+import com.jin.jvm.entity.JstackEntity;
+import com.jin.jvm.utils.ArrayUtil;
+import com.jin.jvm.utils.ExecuteCmd;
+import com.jin.jvm.utils.PathUtil;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;

@@ -11,6 +11,11 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.ThreadPoolExecutor.AbortPolicy;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * 线程池
+ * {@link ThreadPoolExecutor} 创建线程池的方法
+ * {@link Executors} 创建线程池的模板
+ */
 public class ThreadPoolTest {
 
 	// 线程池维护线程的最少数量

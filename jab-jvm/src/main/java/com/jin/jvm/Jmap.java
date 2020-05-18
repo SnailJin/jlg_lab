@@ -1,7 +1,7 @@
 package com.jin.jvm;
 
-import com.github.qinxuewu.utils.ExecuteCmd;
-import com.github.qinxuewu.utils.PathUtil;
+import com.jin.jvm.utils.ExecuteCmd;
+import com.jin.jvm.utils.PathUtil;
 
 import java.io.File;
 import java.lang.management.ManagementFactory;

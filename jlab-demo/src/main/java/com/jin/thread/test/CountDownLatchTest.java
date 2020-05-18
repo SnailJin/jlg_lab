@@ -5,6 +5,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 /**
  * 闭锁测试
+ * 共享锁实现
  * 使用场景控制多线程同时并发
  * @author jin
  *

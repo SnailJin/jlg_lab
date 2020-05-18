@@ -1,8 +1,8 @@
 package com.jin.jvm;
 
-import com.github.qinxuewu.entity.KVEntity;
-import com.github.qinxuewu.utils.ArrayUtil;
-import com.github.qinxuewu.utils.ExecuteCmd;
+import com.jin.jvm.entity.KVEntity;
+import com.jin.jvm.utils.ArrayUtil;
+import com.jin.jvm.utils.ExecuteCmd;
 
 import java.io.BufferedReader;
 import java.io.StringReader;

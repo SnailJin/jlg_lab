@@ -17,10 +17,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -63,8 +61,9 @@ public class Test {
 //				}
 //			});
 //		}
-		
-		System.out.println(getWeek("2018-08-05", "2018-09-14",  "2018-09-09"));
+		Object[] objects = new Object[]{1,2};
+		objects[0] = null;
+		System.out.println(objects.length);
 	}
 
 	public static void test() {
